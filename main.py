@@ -113,7 +113,7 @@ p_rev_n[-1] = 2*p_rev_m[0] - p_rev_n[0] # I know that [-1] refers to the last el
 # t_u = m*X_p*v_c/p_c
 # t_r = t / t_u
 
-# I could have vectorized this for numerical optimization if performance had been a problem. Luckily, using a simple for-loop was fast enough for my use-case.
+# This can't be fully vectorized (for numerical optimization if performance had been a problem) as it is a sequential ODE. Luckily, using a simple for-loop was fast enough for my use-case.
 for i in range(N-1):
 
     b_m[i+1] = b_m[i] + dt * (p_n[i] - p_a)
@@ -174,7 +174,7 @@ ax2.tick_params(axis='y', labelcolor=var_colors['T_n'])
 
 # Third axis (offset)
 ax3 = ax1.twinx()
-ax3.spines['right'].set_position(('axes', 1.1))
+ax3.spines['right'].set_position(('axes', 1.2))
 ax3.plot(t, b_m, color=var_colors['b_m'], label='b_m')
 ax3.set_ylabel('b_m', color=var_colors['b_m'])
 ax3.tick_params(axis='y', labelcolor=var_colors['b_m'])
@@ -215,9 +215,11 @@ ax2.plot(t, s_n, color=var_colors['T_n'], label='s_n')
 ax2.set_ylabel('s_n', color=var_colors['T_n'])
 ax2.tick_params(axis='y', labelcolor=var_colors['T_n'])
 
+# The smaller tau, the closer s_rev_n and s_n are to each other
+
 # Third axis (offset)
 ax3 = ax1.twinx()
-ax3.spines['right'].set_position(('axes', 1.1))
+ax3.spines['right'].set_position(('axes', 1.2))
 ax3.plot(t, s_dot, color=var_colors['b_m'], label='s_dot')
 ax3.set_ylabel('s_dot', color=var_colors['b_m'])
 ax3.tick_params(axis='y', labelcolor=var_colors['b_m'])
